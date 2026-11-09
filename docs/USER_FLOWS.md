@@ -6,7 +6,7 @@
 | Related | [PRD.md](PRD.md) (requirement IDs used below) · [TRD.md](TRD.md) · [BACKEND_SCHEMA.md](BACKEND_SCHEMA.md) |
 
 Each flow has: short steps, a diagram, and edge cases. Screen and button names are the English texts in the
-app (every one also exists in Kiswahili). Server parts marked "pending" are not live yet (PRD section 10).
+app (every one also exists in Kiswahili). Server status is in PRD section 10.
 
 Contents
 1. First launch and sign-in
@@ -67,7 +67,7 @@ flowchart TD
 **Edge cases**
 - She cancels the Google window: nothing happens, she stays on Sign in.
 - Wrong, used or expired clinic code: "this code is wrong, used or expired". After 10 failures in an hour from
-  the same network: "too many tries, wait an hour". (Clinic codes are **pending** on the server.)
+  the same network: "too many tries, wait an hour".
 - No signal right after sign-in: she continues; the normal sync merges her records later.
 - A phone number that belongs to a staff or helper account cannot get a clinic code.
 - She set up the app before sign-in was required: on next open she is sent to Sign in; her phone records are
@@ -120,7 +120,7 @@ flowchart TD
 
 ## 3. Mothers' circle (community)
 
-Requirements: COM-01 to COM-20. Server part **pending** (migration and `community` function).
+Requirements: COM-01 to COM-20.
 
 ### 3.1 First post, anonymous
 
@@ -318,7 +318,7 @@ flowchart TD
 
 ## 4. Appointments and video calls (telemedicine)
 
-Requirements: TEL-01 to TEL-16. Server part **pending** (migration and `telemed-join`).
+Requirements: TEL-01 to TEL-16.
 
 ### 4.1 Booking a video call in 3 steps
 

@@ -403,10 +403,10 @@ The repo does not contain a dated plan. The phases below follow the server statu
 
 | Item | Status |
 |---|---|
-| `20261106010000_community_bookings.sql` (circle + appointments) | **Not applied** |
-| `functions/community` | **Not deployed** |
-| `functions/telemed-join` | **Not deployed**; needs `DAILY_API_KEY` + `DAILY_DOMAIN` for real calls |
-| `20261105020000_mother_setup_codes.sql` + `functions/mother-setup` | **Not applied / not deployed** |
+| `20261106010000_community_bookings.sql` (circle + appointments) | Applied |
+| `functions/community` | Deployed |
+| `functions/telemed-join` | Deployed; uses public Jitsi until `DAILY_API_KEY` + `DAILY_DOMAIN` are set |
+| `20261105020000_mother_setup_codes.sql` + `functions/mother-setup` | Applied / deployed |
 | `functions/send-notifications` | Not deployed |
 | `functions/ai-gateway` | Deployed; answers start once `GROQ_API_KEY` is set |
 | Other migrations up to `20261106000400` and `admin-users` | Applied / deployed |

@@ -179,9 +179,9 @@ erDiagram
 |---|---|---|---|
 | `ai-gateway` | Mother app | MamaBot AI answers through Groq. Urgent words get a fixed safety message instead of AI. Daily limit 30. | Deployed |
 | `admin-users` | Dashboard | Invite staff and admins, temporary passwords, reset, deactivate. | Deployed |
-| `mother-setup` | Dashboard (`create`), app (`redeem`) | Clinic setup codes. Deploy with `--no-verify-jwt`. | Not deployed |
-| `community` | App, dashboard (staff answers) | `post` (content check, then store), `handle_check`, `handle` (set her community name). | Not deployed |
-| `telemed-join` | App, dashboard | The video call link, only for that mother and her facility's staff, from 15 minutes before to 30 minutes after. Records first join times. | Not deployed |
+| `mother-setup` | Dashboard (`create`), app (`redeem`) | Clinic setup codes. Deploy with `--no-verify-jwt`. | Deployed |
+| `community` | App, dashboard (staff answers) | `post` (content check, then store), `handle_check`, `handle` (set her community name). | Deployed |
+| `telemed-join` | App, dashboard | The video call link, only for that mother and her facility's staff, from 15 minutes before to 30 minutes after. Records first join times. | Deployed |
 | `send-notifications` | Cron | Push notifications from `notification_queue`. | Not deployed |
 
 Secrets (names only, set with `supabase secrets set`): `GROQ_API_KEY`, `GROQ_MODEL` (optional), `DAILY_API_KEY`, `DAILY_DOMAIN`, `JITSI_BASE` (optional), `DASHBOARD_URL`.

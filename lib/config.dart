@@ -19,5 +19,10 @@ class AppConfig {
   static const googleWebClientId = String.fromEnvironment('GOOGLE_WEB_CLIENT_ID');
   static const googleIosClientId = String.fromEnvironment('GOOGLE_IOS_CLIENT_ID');
 
+  /// Sign-in by SMS code. Off until an SMS provider is connected in Supabase (Auth → Phone);
+  /// build with `--dart-define=SMS_SIGNIN=true` to show it. Without it, mothers sign in with a
+  /// code from their clinic (or Google, when built in).
+  static bool smsSignIn = const bool.fromEnvironment('SMS_SIGNIN');
+
   static bool get hasPush => fcmApiKey.isNotEmpty && fcmAppId.isNotEmpty && fcmSenderId.isNotEmpty && fcmProjectId.isNotEmpty;
 }

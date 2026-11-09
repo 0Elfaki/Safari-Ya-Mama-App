@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/content_assets.dart';
+import '../../config.dart';
 import '../../data/google_auth.dart';
 import '../../data/remote.dart';
 import '../content_widgets.dart';
@@ -10,7 +11,7 @@ import '../widgets.dart';
 /// Sign-in (required when the app has a server, so her records are never only on one phone).
 /// Three ways in, no new password to remember:
 ///  - her Google account (when Google sign-in is built in);
-///  - her phone number and the 6-digit code sent by SMS;
+///  - her phone number and the 6-digit code sent by SMS (only when AppConfig.smsSignIn);
 ///  - an 8-digit code from her clinic, when staff set up her account (no SMS needed).
 /// After sign-in the router takes her on: to Home if her records are already on the server,
 /// otherwise to the setup questions.
@@ -22,7 +23,7 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final phone = TextEditingController(), code = TextEditingController(), clinicCode = TextEditingController();
-  String mode = 'sms'; // sms | clinic
+  String mode = AppConfig.smsSignIn ? 'sms' : 'clinic'; // sms | clinic | google
   bool sent = false, busy = false;
   String? err;
 
@@ -81,10 +82,15 @@ class _SignInScreenState extends State<SignInScreen> {
         ],
         AppHeader(
           context.t('Keep your records safe', 'Linda kumbukumbu zako'),
-          subtitle: context.t(
-            'Sign in with your phone number. Your checks, visits and vaccines are saved, so they are not lost if this phone is lost. Your clinic sees them only if you allow it.',
-            'Ingia kwa namba yako ya simu. Ukaguzi, kliniki na chanjo zako zinahifadhiwa, hazipotei simu hii ikipotea. Kliniki inaziona tu ukiruhusu.',
-          ),
+          subtitle: AppConfig.smsSignIn
+              ? context.t(
+                  'Sign in with your phone number. Your checks, visits and vaccines are saved, so they are not lost if this phone is lost. Your clinic sees them only if you allow it.',
+                  'Ingia kwa namba yako ya simu. Ukaguzi, kliniki na chanjo zako zinahifadhiwa, hazipotei simu hii ikipotea. Kliniki inaziona tu ukiruhusu.',
+                )
+              : context.t(
+                  'Sign in with the code from your clinic. Your checks, visits and vaccines are saved, so they are not lost if this phone is lost. Your clinic sees them only if you allow it.',
+                  'Ingia kwa namba kutoka kliniki yako. Ukaguzi, kliniki na chanjo zako zinahifadhiwa, hazipotei simu hii ikipotea. Kliniki inaziona tu ukiruhusu.',
+                ),
         ),
         if (GoogleAuth.available) ...[
           OutlineButton(
@@ -101,7 +107,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       failEn: 'Google sign-in did not work. Try again, or use your phone number.',
                       failSw: 'Kuingia kwa Google hakukufanya kazi. Jaribu tena, au tumia namba ya simu.',
                     );
-                    if (mounted && mode == 'google') setState(() => mode = 'sms');
+                    if (mounted && mode == 'google') setState(() => mode = AppConfig.smsSignIn ? 'sms' : 'clinic');
                   },
           ),
           const Gap(Sp.md),
@@ -110,27 +116,34 @@ class _SignInScreenState extends State<SignInScreen> {
               const Expanded(child: Divider()),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Sp.smd),
-                child: Text(context.t('or with your phone number', 'au kwa namba ya simu'), style: tt.bodySmall),
+                child: Text(
+                  AppConfig.smsSignIn
+                      ? context.t('or with your phone number', 'au kwa namba ya simu')
+                      : context.t('or with a code from your clinic', 'au kwa namba kutoka kliniki'),
+                  style: tt.bodySmall,
+                ),
               ),
               const Expanded(child: Divider()),
             ],
           ),
           const Gap(Sp.md),
         ],
-        SegmentedButton<String>(
-          key: const Key('signin-mode'),
-          showSelectedIcon: false,
-          segments: [
-            ButtonSegment(value: 'sms', icon: const Icon(Icons.sms_outlined), label: Text(context.t('SMS code', 'Namba kwa SMS'))),
-            ButtonSegment(value: 'clinic', icon: const Icon(Icons.local_hospital_outlined), label: Text(context.t('Code from clinic', 'Namba ya kliniki'))),
-          ],
-          selected: {mode == 'google' ? 'sms' : mode},
-          onSelectionChanged: (v) => setState(() {
-            mode = v.first;
-            err = null;
-          }),
-        ),
-        const Gap(Sp.lg),
+        if (AppConfig.smsSignIn) ...[
+          SegmentedButton<String>(
+            key: const Key('signin-mode'),
+            showSelectedIcon: false,
+            segments: [
+              ButtonSegment(value: 'sms', icon: const Icon(Icons.sms_outlined), label: Text(context.t('SMS code', 'Namba kwa SMS'))),
+              ButtonSegment(value: 'clinic', icon: const Icon(Icons.local_hospital_outlined), label: Text(context.t('Code from clinic', 'Namba ya kliniki'))),
+            ],
+            selected: {mode == 'google' ? 'sms' : mode},
+            onSelectionChanged: (v) => setState(() {
+              mode = v.first;
+              err = null;
+            }),
+          ),
+          const Gap(Sp.lg),
+        ],
         if (mode == 'sms' && !sent) ...[
           TextField(
             key: const Key('signin-phone'),
@@ -187,10 +200,15 @@ class _SignInScreenState extends State<SignInScreen> {
             color: C.primarySoft,
             border: C.primary.withValues(alpha: .18),
             child: Text(
-              context.t(
-                'No SMS, or need help? Ask a health worker at your clinic. They set up your account and give you an 8-digit code.',
-                'Huna SMS, au unahitaji msaada? Muulize mhudumu wa afya kliniki. Atakuandalia akaunti na kukupa namba ya tarakimu 8.',
-              ),
+              AppConfig.smsSignIn
+                  ? context.t(
+                      'No SMS, or need help? Ask a health worker at your clinic. They set up your account and give you an 8-digit code.',
+                      'Huna SMS, au unahitaji msaada? Muulize mhudumu wa afya kliniki. Atakuandalia akaunti na kukupa namba ya tarakimu 8.',
+                    )
+                  : context.t(
+                      'Ask a health worker at your clinic. They set up your account and give you an 8-digit code.',
+                      'Muulize mhudumu wa afya kliniki. Atakuandalia akaunti na kukupa namba ya tarakimu 8.',
+                    ),
               style: tt.bodyLarge,
             ),
           ),

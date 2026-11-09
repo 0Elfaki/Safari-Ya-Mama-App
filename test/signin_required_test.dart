@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:safari_ya_mama/app/app.dart';
 import 'package:safari_ya_mama/app/providers.dart';
+import 'package:safari_ya_mama/config.dart';
 import 'package:safari_ya_mama/core/dates.dart';
 import 'package:safari_ya_mama/data/local_store.dart';
 import 'package:safari_ya_mama/state/app_state.dart';
@@ -21,7 +22,10 @@ void main() {
     await store.open(inMemory: true);
     remote = FakeRemote()..uid = null;
   });
-  tearDown(() => Hive.close());
+  tearDown(() {
+    AppConfig.smsSignIn = false;
+    return Hive.close();
+  });
 
   Future<AppState> pump(WidgetTester t, AppState s) async {
     await s.setLang('en');
@@ -49,6 +53,7 @@ void main() {
   });
 
   testWidgets('SMS sign-in, new mother → setup questions', (t) async {
+    AppConfig.smsSignIn = true;
     final s = await pump(t, AppState(store, remote: remote));
     await tap(t, 'get-started');
     await t.enterText(find.byKey(const Key('signin-phone')), '0712 345 678');
@@ -71,6 +76,7 @@ void main() {
     remote.pullRows['pregnancies'] = [
       {'id': 'p1', 'mother_id': 'mother-1', 'lmp': lmp, 'status': 'active', 'updated_at': '2026-11-01T08:00:00Z'},
     ];
+    AppConfig.smsSignIn = true;
     final s = await pump(t, AppState(store, remote: remote));
     await tap(t, 'have-account');
     await t.enterText(find.byKey(const Key('signin-phone')), '0712345678');
@@ -85,7 +91,17 @@ void main() {
     expect(find.text('Hello, Amina'), findsOneWidget);
   });
 
+  testWidgets('without SMS sign-in, the clinic code is the only way in (no SMS choice shown)', (t) async {
+    await pump(t, AppState(store, remote: remote));
+    await tap(t, 'get-started');
+    expect(find.byKey(const Key('signin-mode')), findsNothing);
+    expect(find.byKey(const Key('signin-phone')), findsNothing);
+    expect(find.byKey(const Key('signin-clinic-code')), findsOneWidget);
+    expect(find.textContaining('No SMS'), findsNothing);
+  });
+
   testWidgets('clinic setup code: a wrong code is refused, the right one works once', (t) async {
+    AppConfig.smsSignIn = true;
     remote.setupCodes.add('48213907');
     final s = await pump(t, AppState(store, remote: remote));
     await tap(t, 'get-started');
