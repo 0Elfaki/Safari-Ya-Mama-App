@@ -305,16 +305,16 @@ class ProfileScreen extends StatelessWidget {
               ),
             if (list.isEmpty) ...[
               const Gap(8),
-              TextField(
+              Labeled(label: s.lang == 'sw' ? 'Jina la kliniki' : 'Clinic name', child: TextField(
                 controller: name,
-                decoration: InputDecoration(labelText: s.lang == 'sw' ? 'Jina la kliniki' : 'Clinic name'),
-              ),
+                decoration: InputDecoration(),
+              )),
               const Gap(8),
-              TextField(
+              Labeled(label: s.lang == 'sw' ? 'Simu ya kliniki' : 'Clinic phone', child: TextField(
                 controller: phone,
                 keyboardType: TextInputType.phone,
-                decoration: InputDecoration(labelText: s.lang == 'sw' ? 'Simu ya kliniki' : 'Clinic phone'),
-              ),
+                decoration: InputDecoration(),
+              )),
               const Gap(12),
               FilledButton(
                 onPressed: () {

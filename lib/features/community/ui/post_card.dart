@@ -13,10 +13,7 @@ import '../../../ui/widgets.dart';
 void showOutcome(BuildContext context, PostOutcome r, {required bool reply}) {
   final text = switch (r.status) {
     'published' => reply ? context.t('Reply shared. Thank you!', 'Jibu limeshirikiwa. Asante!') : context.t('Shared. Thank you!', 'Imeshirikiwa. Asante!'),
-    'blocked' => context.t(
-      'Not shared. Please write kindly to other mothers.',
-      'Haijashirikiwa. Tafadhali andika kwa upole kwa akina mama wengine.',
-    ),
+    'blocked' => context.t('Not shared. Please write kindly to other mothers.', 'Haijashirikiwa. Tafadhali andika kwa upole kwa akina mama wengine.'),
     _ => context.t(
       'Thank you. A health worker will check it soon. Until then only you can see it.',
       'Asante. Mhudumu wa afya ataikagua hivi karibuni. Hadi hapo ni wewe tu unayeiona.',
@@ -39,11 +36,31 @@ void showCircleRules(BuildContext context) => showModalBottomSheet<void>(
           Text(c.t('How we keep the circle safe', 'Tunavyoweka kikundi salama'), style: AppTypography.h3),
           const Gap(Sp.smd),
           for (final (icon, en, sw) in [
-            (Icons.fact_check_outlined, 'Every post is checked for wrong health advice before others see it.', 'Kila chapisho hukaguliwa kama lina ushauri mbaya wa afya kabla wengine hawajaliona.'),
-            (Icons.health_and_safety_outlined, 'Health workers read posts, add notes and remove unsafe advice.', 'Wahudumu wa afya husoma machapisho, huongeza maelezo na kuondoa ushauri usio salama.'),
-            (Icons.flag_outlined, 'If something looks wrong, tap ⋮ and report it. Three reports hide a post.', 'Ukiona kitu si sawa, gusa ⋮ uripoti. Ripoti tatu huficha chapisho.'),
-            (Icons.lock_outline, 'Others see only your first name if you choose. Never share phone numbers.', 'Wengine wanaona jina lako la kwanza tu ukichagua. Usishiriki namba za simu.'),
-            (Icons.emergency_outlined, 'In an emergency do not wait for answers here: open Emergency help.', 'Wakati wa dharura usisubiri majibu hapa: fungua Msaada wa dharura.'),
+            (
+              Icons.fact_check_outlined,
+              'Every post is checked for wrong health advice before others see it.',
+              'Kila chapisho hukaguliwa kama lina ushauri mbaya wa afya kabla wengine hawajaliona.',
+            ),
+            (
+              Icons.health_and_safety_outlined,
+              'Health workers read posts, add notes and remove unsafe advice.',
+              'Wahudumu wa afya husoma machapisho, huongeza maelezo na kuondoa ushauri usio salama.',
+            ),
+            (
+              Icons.flag_outlined,
+              'If something looks wrong, tap ⋮ and report it. Three reports hide a post.',
+              'Ukiona kitu si sawa, gusa ⋮ uripoti. Ripoti tatu huficha chapisho.',
+            ),
+            (
+              Icons.lock_outline,
+              'Others see only your first name if you choose. Never share phone numbers.',
+              'Wengine wanaona jina lako la kwanza tu ukichagua. Usishiriki namba za simu.',
+            ),
+            (
+              Icons.emergency_outlined,
+              'In an emergency do not wait for answers here: open Emergency help.',
+              'Wakati wa dharura usisubiri majibu hapa: fungua Msaada wa dharura.',
+            ),
           ])
             Padding(
               padding: const EdgeInsets.only(bottom: Sp.smd),
@@ -107,13 +124,13 @@ class PostCard extends StatelessWidget {
     try {
       await s.community.report(p.id, reason);
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.t('Thank you. A health worker will look at it.', 'Asante. Mhudumu wa afya ataliangalia.'))),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(context.t('Thank you. A health worker will look at it.', 'Asante. Mhudumu wa afya ataliangalia.'))));
       }
     } on RemoteError {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.t('No internet. Try again later.', 'Hakuna intaneti. Jaribu tena baadaye.'))));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(context.t('No internet. Try again later.', 'Hakuna intaneti. Jaribu tena baadaye.'))));
       }
     }
   }
@@ -164,10 +181,7 @@ class PostCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(context.tx(p.byline), style: tt.titleSmall, maxLines: 1, overflow: TextOverflow.ellipsis),
-                    Text(
-                      reply ? _ago(context, p.createdAt) : '${_ago(context, p.createdAt)} · ${context.tx(topicLabel(p.topic))}',
-                      style: tt.bodySmall,
-                    ),
+                    Text(reply ? _ago(context, p.createdAt) : '${_ago(context, p.createdAt)} · ${context.tx(topicLabel(p.topic))}', style: tt.bodySmall),
                   ],
                 ),
               ),
@@ -336,14 +350,26 @@ Widget? checkHint(BuildContext context, CommunityCheck c) {
         ),
         extra: Padding(
           padding: const EdgeInsets.only(top: Sp.sm),
-          child: DangerButton(key: const Key('compose-emergency'), context.t('Get help now', 'Pata msaada sasa'), icon: Icons.emergency, onPressed: () => context.push(Routes.emergency)),
+          child: DangerButton(
+            key: const Key('compose-emergency'),
+            context.t('Get help now', 'Pata msaada sasa'),
+            icon: Icons.emergency,
+            onPressed: () => context.push(Routes.emergency),
+          ),
         ),
       ),
     );
   }
   switch (c.verdict) {
     case Verdict.block:
-      out.add(card(C.red, C.redSoft, Icons.block, context.t('Please write kindly. Posts with insults are not shared.', 'Tafadhali andika kwa upole. Machapisho yenye matusi hayashirikiwi.')));
+      out.add(
+        card(
+          C.red,
+          C.redSoft,
+          Icons.block,
+          context.t('Please write kindly. Posts with insults are not shared.', 'Tafadhali andika kwa upole. Machapisho yenye matusi hayashirikiwi.'),
+        ),
+      );
     case Verdict.fix:
       out.add(
         card(
@@ -362,10 +388,7 @@ Widget? checkHint(BuildContext context, CommunityCheck c) {
           C.amber,
           C.amberSoft,
           Icons.hourglass_top_rounded,
-          context.t(
-            'A health worker will check this before other mothers see it.',
-            'Mhudumu wa afya atakagua hili kabla akina mama wengine hawajaliona.',
-          ),
+          context.t('A health worker will check this before other mothers see it.', 'Mhudumu wa afya atakagua hili kabla akina mama wengine hawajaliona.'),
         ),
       );
     default:
@@ -373,9 +396,20 @@ Widget? checkHint(BuildContext context, CommunityCheck c) {
   }
   if (rules != null) {
     for (final id in c.facts) {
-      if (rules.myth(id) case final m?) out.add(Padding(padding: const EdgeInsets.only(top: Sp.sm), child: FactCard(m.fact)));
+      if (rules.myth(id) case final m?)
+        out.add(
+          Padding(
+            padding: const EdgeInsets.only(top: Sp.sm),
+            child: FactCard(m.fact),
+          ),
+        );
     }
   }
   // announced by screen readers when a new warning appears while she types
-  return out.isEmpty ? null : Semantics(liveRegion: true, child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: out));
+  return out.isEmpty
+      ? null
+      : Semantics(
+          liveRegion: true,
+          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: out),
+        );
 }

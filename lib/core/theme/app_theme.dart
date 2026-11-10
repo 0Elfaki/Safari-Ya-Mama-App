@@ -40,7 +40,7 @@ ThemeData buildTheme() {
       scrolledUnderElevation: 0,
       centerTitle: false,
       titleSpacing: 16,
-      titleTextStyle: TextStyle(fontFamily: display, fontSize: 18, fontWeight: FontWeight.w700, color: C.ink),
+      titleTextStyle: TextStyle(fontFamily: display, fontSize: 20, fontWeight: FontWeight.w800, color: C.ink),
     ),
     cardTheme: CardThemeData(
       color: C.surface,
@@ -84,31 +84,42 @@ ThemeData buildTheme() {
         textStyle: const TextStyle(fontFamily: body, fontSize: 14, fontWeight: FontWeight.w600),
       ),
     ),
-    // Inputs: 54 high, radius 12, the label always shown above the text (never only a placeholder).
+    // Inputs: white box, radius 16, the label floating on the top border (Labeled).
+    // Borders: grey-green (3:1 on white), deep green when focused, muted terracotta on error.
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: C.surface,
       isDense: false,
       floatingLabelBehavior: FloatingLabelBehavior.always,
-      contentPadding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
+      contentPadding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
       labelStyle: const TextStyle(color: C.ink2, fontWeight: FontWeight.w600),
       floatingLabelStyle: const TextStyle(color: C.primary, fontWeight: FontWeight.w600),
       hintStyle: const TextStyle(color: C.ink3),
+      errorStyle: const TextStyle(color: C.red, fontSize: 13.5, fontWeight: FontWeight.w500, height: 1.35),
+      errorMaxLines: 3,
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(R.input),
-        borderSide: const BorderSide(color: C.line),
+        borderRadius: BorderRadius.circular(_fieldRadius),
+        borderSide: const BorderSide(color: _fieldLine),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(R.input),
-        borderSide: const BorderSide(color: C.line),
+        borderRadius: BorderRadius.circular(_fieldRadius),
+        borderSide: const BorderSide(color: _fieldLine),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(R.input),
+        borderRadius: BorderRadius.circular(_fieldRadius),
         borderSide: const BorderSide(color: C.primary, width: 2),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(R.input),
-        borderSide: const BorderSide(color: C.red, width: 1.5),
+        borderRadius: BorderRadius.circular(_fieldRadius),
+        borderSide: const BorderSide(color: _fieldError, width: 1.5),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(_fieldRadius),
+        borderSide: const BorderSide(color: _fieldError, width: 2),
+      ),
+      disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(_fieldRadius),
+        borderSide: const BorderSide(color: C.line),
       ),
     ),
     navigationBarTheme: NavigationBarThemeData(
@@ -158,3 +169,7 @@ ThemeData buildTheme() {
     ),
   );
 }
+
+const double _fieldRadius = 16;
+const _fieldLine = Color(0xFF7D9282); // muted grey-green
+const _fieldError = Color(0xFFB5543C); // muted terracotta red

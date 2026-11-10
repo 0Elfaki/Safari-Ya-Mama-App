@@ -302,11 +302,11 @@ class BabyScreen extends StatelessWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              TextField(
+              Labeled(label: 'kg', child: TextField(
                 controller: c,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(labelText: 'kg', hintText: '4.5'),
-              ),
+                decoration: const InputDecoration(hintText: '4.5'),
+              )),
               const Gap(12),
               SegmentedButton<String>(
                 segments: [

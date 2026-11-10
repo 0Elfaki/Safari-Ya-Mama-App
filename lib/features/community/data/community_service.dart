@@ -139,9 +139,7 @@ class CommunityService {
   }
 
   /// The feed as last seen, for offline reading.
-  List<CommunityPost> get cached => [
-    for (final e in (s.store.meta<List>('community_cache', const []) ?? const [])) CommunityPost.fromJson(asMap(e)),
-  ];
+  List<CommunityPost> get cached => [for (final e in (s.store.meta<List>('community_cache', const []) ?? const [])) CommunityPost.fromJson(asMap(e))];
 
   Future<List<CommunityPost>> feed({String? topic, DateTime? before}) async {
     final r = await _r.rpc('community_feed', {'p_topic': topic, 'p_before': before?.toUtc().toIso8601String(), 'p_limit': 30});
@@ -216,11 +214,7 @@ class CommunityService {
       rethrow;
     }
     final j = r is Map ? asMap(r) : const <String, dynamic>{};
-    return PostOutcome(
-      j['status'] as String? ?? 'review',
-      urgent: j['urgent'] == true,
-      facts: [for (final f in (j['facts'] as List? ?? const [])) '$f'],
-    );
+    return PostOutcome(j['status'] as String? ?? 'review', urgent: j['urgent'] == true, facts: [for (final f in (j['facts'] as List? ?? const [])) '$f']);
   }
 
   Future<void> report(String id, String reason) => _r.rpc('report_community_post', {'p_post': id, 'p_reason': reason});

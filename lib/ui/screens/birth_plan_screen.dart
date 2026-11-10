@@ -47,24 +47,24 @@ class _BirthPlanScreenState extends State<BirthPlanScreen> {
             ),
           ),
           SectionTitle(context.t('Details', 'Maelezo')),
-          TextField(
+          Labeled(label: context.t('How will you travel, day or night?', 'Utasafiri vipi, mchana au usiku?'), child: TextField(
             controller: transport,
             maxLength: 200,
-            decoration: InputDecoration(labelText: context.t('How will you travel, day or night?', 'Utasafiri vipi, mchana au usiku?')),
-          ),
+            decoration: InputDecoration(),
+          )),
           const Gap(12),
-          TextField(
+          Labeled(label: context.t('Who will go with you?', 'Nani atakusindikiza?'), child: TextField(
             controller: companion,
             maxLength: 120,
-            decoration: InputDecoration(labelText: context.t('Who will go with you?', 'Nani atakusindikiza?')),
-          ),
+            decoration: InputDecoration(),
+          )),
           const Gap(12),
-          TextField(
+          Labeled(label: context.t('Emergency contact phone', 'Simu ya mtu wa dharura'), child: TextField(
             controller: contact,
             maxLength: 40,
             keyboardType: TextInputType.phone,
-            decoration: InputDecoration(labelText: context.t('Emergency contact phone', 'Simu ya mtu wa dharura')),
-          ),
+            decoration: InputDecoration(),
+          )),
           const Gap(16),
           FilledButton(
             onPressed: () {

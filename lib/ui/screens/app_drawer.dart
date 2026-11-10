@@ -41,7 +41,10 @@ class AppDrawer extends StatelessWidget {
     Widget item(String key, IconData icon, String label, VoidCallback onTap, {bool selected = false, String? sub, Widget? trailing}) => ListTile(
       key: Key(key),
       leading: Icon(icon, color: selected ? C.primary : C.ink2),
-      title: Text(label, style: TextStyle(fontWeight: selected ? FontWeight.w700 : FontWeight.w500, color: selected ? C.primary : C.ink)),
+      title: Text(
+        label,
+        style: TextStyle(fontWeight: selected ? FontWeight.w700 : FontWeight.w500, color: selected ? C.primary : C.ink),
+      ),
       subtitle: sub == null ? null : Text(sub),
       trailing: trailing,
       selected: selected,
@@ -136,7 +139,12 @@ class AppDrawer extends StatelessWidget {
                     trailing: unread > 0 ? Badge(backgroundColor: C.primary, label: Text('$unread')) : null,
                   ),
                   const Divider(indent: Sp.md, endIndent: Sp.md),
-                  item('open-profile', Icons.account_circle_outlined, context.t('Profile and settings', 'Wasifu na mipangilio'), () => then(() => context.push(Routes.profile))),
+                  item(
+                    'open-profile',
+                    Icons.account_circle_outlined,
+                    context.t('Profile and settings', 'Wasifu na mipangilio'),
+                    () => then(() => context.push(Routes.profile)),
+                  ),
                   item(
                     'menu-language',
                     Icons.translate,

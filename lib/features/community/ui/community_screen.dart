@@ -77,10 +77,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
         children: [
           EmptyState(
             Icons.forum_outlined,
-            context.t(
-              'The mothers\' circle needs you to be signed in, with internet.',
-              'Kikundi cha akina mama kinahitaji uwe umeingia, na uwe na intaneti.',
-            ),
+            context.t('The mothers\' circle needs you to be signed in, with internet.', 'Kikundi cha akina mama kinahitaji uwe umeingia, na uwe na intaneti.'),
           ),
         ],
       );
@@ -132,12 +129,19 @@ class _CommunityScreenState extends State<CommunityScreen> {
                         if (mounted) setState(() {});
                       },
                       child: Text(
-                        s.community.handle == null ? context.t('Choose a community name', 'Chagua jina la jamii') : context.t('My name: @${s.community.handle}', 'Jina langu: @${s.community.handle}'),
+                        s.community.handle == null
+                            ? context.t('Choose a community name', 'Chagua jina la jamii')
+                            : context.t('My name: @${s.community.handle}', 'Jina langu: @${s.community.handle}'),
                       ),
                     ),
                   ],
                 ),
-                PrimaryButton(key: const Key('community-share'), context.t('Share with mothers', 'Shiriki na akina mama'), icon: Icons.edit_outlined, onPressed: _share),
+                PrimaryButton(
+                  key: const Key('community-share'),
+                  context.t('Share with mothers', 'Shiriki na akina mama'),
+                  icon: Icons.edit_outlined,
+                  onPressed: _share,
+                ),
               ],
             ),
           ),
@@ -185,7 +189,9 @@ class _CommunityScreenState extends State<CommunityScreen> {
             const Gap(Sp.sm),
           ],
           if (offline) ...[
-            OfflineIndicator(text: context.t('No internet. Showing posts saved on this phone.', 'Hakuna intaneti. Unaona machapisho yaliyohifadhiwa kwenye simu hii.')),
+            OfflineIndicator(
+              text: context.t('No internet. Showing posts saved on this phone.', 'Hakuna intaneti. Unaona machapisho yaliyohifadhiwa kwenye simu hii.'),
+            ),
             const Gap(Sp.sm),
           ],
           if (posts == null && loading)

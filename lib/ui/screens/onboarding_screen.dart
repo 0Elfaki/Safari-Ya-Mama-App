@@ -110,13 +110,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         context.t('About you', 'Kuhusu wewe'),
         subtitle: context.t('So the app can greet you. Only a first name is needed.', 'Ili programu ikusalimie. Jina la kwanza linatosha.'),
       ),
-      TextField(
+      Labeled(label: context.t('Your first name', 'Jina lako la kwanza'), child: TextField(
         key: const Key('ob-name'),
         controller: name,
         onChanged: (_) => setState(() {}),
         textCapitalization: TextCapitalization.words,
-        decoration: InputDecoration(labelText: context.t('Your first name', 'Jina lako la kwanza')),
-      ),
+        decoration: InputDecoration(),
+      )),
     ],
   );
 
@@ -230,15 +230,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         ),
         for (var i = 0; i < babyCount; i++) ...[
           const Gap(12),
-          TextField(
+          Labeled(label: babyCount == 1 ? context.t("Baby's name (optional)", 'Jina la mtoto (si lazima)') : context.t('Name of baby ${i + 1} (optional)', 'Jina la mtoto wa ${i + 1} (si lazima)'), child: TextField(
             key: Key('ob-baby-$i'),
             controller: babyNames[i],
             decoration: InputDecoration(
-              labelText: babyCount == 1
-                  ? context.t("Baby's name (optional)", 'Jina la mtoto (si lazima)')
-                  : context.t('Name of baby ${i + 1} (optional)', 'Jina la mtoto wa ${i + 1} (si lazima)'),
-            ),
-          ),
+              ),
+          )),
         ],
       ],
     ],
@@ -253,29 +250,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           'Ili ziwe karibu wakati wa dharura. Zinahifadhiwa kwenye simu hii. Unaweza kuruka.',
         ),
       ),
-      TextField(
+      Labeled(label: context.t('Your clinic or hospital', 'Kliniki au hospitali yako'), child: TextField(
         key: const Key('ob-clinic'),
         controller: clinic,
-        decoration: InputDecoration(labelText: context.t('Your clinic or hospital', 'Kliniki au hospitali yako')),
-      ),
+        decoration: InputDecoration(),
+      )),
       const Gap(Sp.md),
-      TextField(
+      Labeled(label: context.t('Clinic phone', 'Simu ya kliniki'), child: TextField(
         key: const Key('ob-clinic-phone'),
         controller: clinicPhone,
         keyboardType: TextInputType.phone,
-        decoration: InputDecoration(labelText: context.t('Clinic phone', 'Simu ya kliniki')),
-      ),
+        decoration: InputDecoration(),
+      )),
       const Gap(Sp.lg),
-      TextField(
+      Labeled(label: context.t('Person to call (partner, family)', 'Mtu wa kumpigia (mwenzi, familia)'), child: TextField(
         controller: contactName,
-        decoration: InputDecoration(labelText: context.t('Person to call (partner, family)', 'Mtu wa kumpigia (mwenzi, familia)')),
-      ),
+        decoration: InputDecoration(),
+      )),
       const Gap(Sp.md),
-      TextField(
+      Labeled(label: context.t('Their phone', 'Simu yake'), child: TextField(
         controller: contactPhone,
         keyboardType: TextInputType.phone,
-        decoration: InputDecoration(labelText: context.t('Their phone', 'Simu yake')),
-      ),
+        decoration: InputDecoration(),
+      )),
     ],
   );
 

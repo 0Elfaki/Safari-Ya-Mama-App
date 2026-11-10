@@ -170,8 +170,7 @@ const _leet = {'0': 'o', '1': 'i', 'l': 'i', '3': 'e', '4': 'a', '5': 's', '7': 
 
 /// Two names are the same name when their keys match ("Mama_Amina" = "mama.amina" = "mamaam1na").
 /// 1, i and l count as the same letter, so "Ami1a" cannot copy "Amila".
-String handleKey(String handle) =>
-    handle.trim().toLowerCase().replaceAll(RegExp('[._]'), '').replaceAllMapped(RegExp('[01l34578]'), (m) => _leet[m[0]]!);
+String handleKey(String handle) => handle.trim().toLowerCase().replaceAll(RegExp('[._]'), '').replaceAllMapped(RegExp('[01l34578]'), (m) => _leet[m[0]]!);
 
 HandleProblem? checkHandle(String handle, HandleRules r) {
   final h = handle.trim();

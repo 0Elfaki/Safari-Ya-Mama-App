@@ -177,15 +177,15 @@ class VisitsScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextField(
+                Labeled(label: s.lang == 'sw' ? 'Jina la dawa' : 'Medicine name', child: TextField(
                   controller: name,
-                  decoration: InputDecoration(labelText: s.lang == 'sw' ? 'Jina la dawa' : 'Medicine name'),
-                ),
+                  decoration: InputDecoration(),
+                )),
                 const Gap(8),
-                TextField(
+                Labeled(label: s.lang == 'sw' ? 'Kiasi (mf. kidonge 1)' : 'Dose (e.g. 1 tablet)', child: TextField(
                   controller: dose,
-                  decoration: InputDecoration(labelText: s.lang == 'sw' ? 'Kiasi (mf. kidonge 1)' : 'Dose (e.g. 1 tablet)'),
-                ),
+                  decoration: InputDecoration(),
+                )),
                 const Gap(8),
                 Wrap(
                   spacing: 6,

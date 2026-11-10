@@ -203,5 +203,29 @@ void main() {
     await t.tap(find.byKey(const Key('get-started')));
     await t.pumpAndSettle();
     await shot(t, '15_signin');
+    await t.tap(find.byKey(const Key('signin-clinic-code')));
+    await t.enterText(find.byKey(const Key('signin-clinic-code')), '48213907');
+    await shot(t, '16_signin_code_complete');
+    await t.tap(find.byKey(const Key('signin-clinic')));
+    await shot(t, '17_signin_code_refused');
+    await t.drag(find.byType(Scrollable).first, const Offset(0, -800));
+    await shot(t, '18_signin_bottom');
+    await t.tap(find.byKey(const Key('signin-help')));
+    await shot(t, '19_signin_help');
+  });
+
+  testWidgets('setup questions: floating labels', (t) async {
+    await Hive.close();
+    final store = LocalStore();
+    await store.open(inMemory: true);
+    final s = AppState(store, remote: FakeRemote());
+    await s.setLang('en');
+    t.view.physicalSize = const Size(1170, 2532);
+    t.view.devicePixelRatio = 3;
+    addTearDown(t.view.reset);
+    await t.pumpWidget(ProviderScope(overrides: [appStateProvider.overrideWith((ref) => s)], child: const SafariYaMamaApp()));
+    await t.pumpAndSettle();
+    await t.enterText(find.byKey(const Key('ob-name')), 'Amina');
+    await shot(t, '20_setup_name');
   });
 }

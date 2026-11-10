@@ -77,7 +77,13 @@ class TabPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = context.app;
-    final titles = ['Safari ya Mama', context.t('My Care', 'Huduma yangu'), 'MamaBot', context.t("Mothers' circle", 'Kikundi cha akina mama'), context.t('Learn', 'Jifunze')];
+    final titles = [
+      'Safari ya Mama',
+      context.t('My Care', 'Huduma yangu'),
+      'MamaBot',
+      context.t("Mothers' circle", 'Kikundi cha akina mama'),
+      context.t('Learn', 'Jifunze'),
+    ];
     final unread = s.unreadNotifications;
     return Scaffold(
       appBar: AppBar(

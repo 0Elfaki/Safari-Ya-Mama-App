@@ -106,7 +106,13 @@ class _ComposePostScreenState extends State<ComposePostScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (err != null) ...[ErrorState(err!), const Gap(Sp.sm)],
-          PrimaryButton(key: const Key('compose-send'), context.t('Share', 'Shiriki'), icon: Icons.send, loading: busy, onPressed: canSend && !busy ? _send : null),
+          PrimaryButton(
+            key: const Key('compose-send'),
+            context.t('Share', 'Shiriki'),
+            icon: Icons.send,
+            loading: busy,
+            onPressed: canSend && !busy ? _send : null,
+          ),
         ],
       ),
       children: [

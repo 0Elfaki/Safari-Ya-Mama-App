@@ -46,7 +46,7 @@ void main() {
     await pump(t, AppState(store, remote: remote));
     expect(find.byKey(const Key('have-account')), findsOneWidget);
     await tap(t, 'get-started');
-    expect(find.text('Keep your records safe'), findsOneWidget);
+    expect(find.text('Welcome back, Mama!'), findsOneWidget);
     expect(find.byKey(const Key('ob-name')), findsNothing, reason: 'no setup questions before sign-in');
     await tap(t, 'emergency');
     expect(find.text('Need urgent help?'), findsOneWidget);
@@ -56,6 +56,7 @@ void main() {
     AppConfig.smsSignIn = true;
     final s = await pump(t, AppState(store, remote: remote));
     await tap(t, 'get-started');
+    await tap(t, 'signin-use-phone');
     await t.enterText(find.byKey(const Key('signin-phone')), '0712 345 678');
     await t.pumpAndSettle();
     await tap(t, 'signin-send');
@@ -79,6 +80,7 @@ void main() {
     AppConfig.smsSignIn = true;
     final s = await pump(t, AppState(store, remote: remote));
     await tap(t, 'have-account');
+    await tap(t, 'signin-use-phone');
     await t.enterText(find.byKey(const Key('signin-phone')), '0712345678');
     await t.pumpAndSettle();
     await tap(t, 'signin-send');
@@ -94,7 +96,7 @@ void main() {
   testWidgets('without SMS sign-in, the clinic code is the only way in (no SMS choice shown)', (t) async {
     await pump(t, AppState(store, remote: remote));
     await tap(t, 'get-started');
-    expect(find.byKey(const Key('signin-mode')), findsNothing);
+    expect(find.byKey(const Key('signin-use-phone')), findsNothing);
     expect(find.byKey(const Key('signin-phone')), findsNothing);
     expect(find.byKey(const Key('signin-clinic-code')), findsOneWidget);
     expect(find.textContaining('No SMS'), findsNothing);
@@ -105,8 +107,6 @@ void main() {
     remote.setupCodes.add('48213907');
     final s = await pump(t, AppState(store, remote: remote));
     await tap(t, 'get-started');
-    await t.tap(find.text('Code from clinic'));
-    await t.pumpAndSettle();
     await t.enterText(find.byKey(const Key('signin-clinic-code')), '11112222');
     await t.pumpAndSettle();
     await tap(t, 'signin-clinic');
@@ -124,7 +124,7 @@ void main() {
     final s = AppState(store, remote: remote);
     await s.completeOnboarding(name: 'Neema', stage: 'pregnant', lmp: addDays(sod(DateTime.now()), -100));
     await pump(t, s);
-    expect(find.text('Keep your records safe'), findsOneWidget);
+    expect(find.text('Welcome back, Mama!'), findsOneWidget);
     expect(find.byKey(const Key('tab-home')), findsNothing);
     expect(s.pregnancy, isNotNull, reason: 'nothing on the phone is lost while she signs in');
   });

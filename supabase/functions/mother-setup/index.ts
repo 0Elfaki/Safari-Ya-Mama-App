@@ -69,7 +69,9 @@ Deno.serve(async (req) => {
       // admins must have finished their two-step sign-in (aal2), as everywhere else
       let aal = "";
       try { aal = JSON.parse(atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/"))).aal ?? ""; } catch { /* not a JWT */ }
-      if (aal !== "aal2") return json({ error: "confirm your sign-in with your authenticator code first" }, 403);
+      // two-step sign-in can be put on hold by the super admin (security_settings.require_mfa)
+      const { data: need } = await db.rpc("mfa_required");
+      if (aal !== "aal2" && need !== false) return json({ error: "confirm your sign-in with your authenticator code first" }, 403);
     }
 
     const phone = e164(body.phone ?? "");

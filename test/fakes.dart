@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:safari_ya_mama/data/remote.dart';
 
 /// In-memory stand-in for Supabase that copies the behaviours the sync contract relies on.
@@ -89,9 +91,17 @@ class FakeRemote implements RemoteApi {
   /// Codes the fake clinic has issued; a redeemed code is removed.
   final setupCodes = <String>{};
 
+  /// Holds the clinic-code sign-in open until completed (to see the loading state).
+  Completer<void>? setupHold;
+
+  /// Makes the clinic-code sign-in fail this way (e.g. no connection, too many tries).
+  RemoteError? setupFails;
+
   @override
   Future<void> signInWithSetupCode(String code) async {
     calls.add('setup $code');
+    if (setupHold != null) await setupHold!.future;
+    if (setupFails != null) throw setupFails!;
     if (!setupCodes.remove(code)) throw RemoteError('setup code refused', permanent: true);
     uid = 'mother-1';
   }

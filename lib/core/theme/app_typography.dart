@@ -16,8 +16,8 @@ abstract final class AppTypography {
   static final displayL = _h.copyWith(fontSize: 32, fontWeight: FontWeight.w800, height: 1.15);
   static final h1 = _h.copyWith(fontSize: 28, fontWeight: FontWeight.w800, height: 1.2);
   static final h2 = _h.copyWith(fontSize: 24, fontWeight: FontWeight.w800, height: 1.25);
-  static final h3 = _h.copyWith(fontSize: 20, fontWeight: FontWeight.w700, height: 1.3);
-  static const bodyLargeStrong = TextStyle(fontFamily: body, fontSize: 16, fontWeight: FontWeight.w600, height: 1.4, color: AppColors.ink);
+  static final h3 = _h.copyWith(fontSize: 20, fontWeight: FontWeight.w800, height: 1.3);
+  static const bodyLargeStrong = TextStyle(fontFamily: body, fontSize: 16, fontWeight: FontWeight.w700, height: 1.4, color: AppColors.ink);
   static const bodyLarge = TextStyle(fontFamily: body, fontSize: 16, height: 1.5, color: AppColors.ink);
   static const bodyText = TextStyle(fontFamily: body, fontSize: 14, height: 1.5, color: AppColors.ink);
   static const caption = TextStyle(fontFamily: body, fontSize: 12, height: 1.4, color: AppColors.ink2);

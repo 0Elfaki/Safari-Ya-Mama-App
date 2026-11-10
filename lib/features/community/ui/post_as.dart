@@ -43,7 +43,9 @@ class PostAsChoice extends StatelessWidget {
               const SizedBox(width: Sp.xs),
               Expanded(
                 child: Text(
-                  anonymous ? context.t('Replying as Anonymous mother · change', 'Unajibu kama Mama asiyejulikana · badilisha') : context.t('Replying as @$handle · change', 'Unajibu kama @$handle · badilisha'),
+                  anonymous
+                      ? context.t('Replying as Anonymous mother · change', 'Unajibu kama Mama asiyejulikana · badilisha')
+                      : context.t('Replying as @$handle · change', 'Unajibu kama @$handle · badilisha'),
                   style: tt.bodySmall,
                 ),
               ),
@@ -90,7 +92,13 @@ class PostAsChoice extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              option('post-as-anon', true, Icons.visibility_off_outlined, context.t('Anonymous mother', 'Mama asiyejulikana'), context.t('No name shown', 'Bila jina')),
+              option(
+                'post-as-anon',
+                true,
+                Icons.visibility_off_outlined,
+                context.t('Anonymous mother', 'Mama asiyejulikana'),
+                context.t('No name shown', 'Bila jina'),
+              ),
               const SizedBox(width: Sp.sm),
               option(
                 'post-as-name',

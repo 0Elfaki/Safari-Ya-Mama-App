@@ -17,12 +17,12 @@ const _ideaWords = ['Jasiri', 'Imara', 'Furaha', 'Tumaini', 'Baraka', 'Upendo', 
 String handleProblemText(BuildContext c, String problem, {DateTime? canChangeAt}) => switch (problem) {
   'length' => c.t('Use 3 to 20 characters.', 'Tumia herufi 3 hadi 20.'),
   'chars' => c.t('Use only letters, numbers, _ or . (no spaces).', 'Tumia herufi, namba, _ au . tu (bila nafasi).'),
-  'start' => c.t(
-    'Start with a letter. Do not end with _ or . or put two of them together.',
-    'Anza na herufi. Usimalizie na _ au . wala usiweke mbili pamoja.',
-  ),
+  'start' => c.t('Start with a letter. Do not end with _ or . or put two of them together.', 'Anza na herufi. Usimalizie na _ au . wala usiweke mbili pamoja.'),
   'digits' => c.t('Use at most 4 numbers, so it does not look like a phone number.', 'Tumia namba 4 au chache, isionekane kama namba ya simu.'),
-  'reserved' => c.t('This name looks like a health worker or the app. Please choose another.', 'Jina hili linafanana na mhudumu wa afya au programu. Chagua jingine.'),
+  'reserved' => c.t(
+    'This name looks like a health worker or the app. Please choose another.',
+    'Jina hili linafanana na mhudumu wa afya au programu. Chagua jingine.',
+  ),
   'offensive' => c.t('Please choose a kind name.', 'Tafadhali chagua jina la heshima.'),
   'taken' => c.t('Someone already has this name, or one that looks the same. Try another.', 'Mtu tayari ana jina hili, au linalofanana nalo. Jaribu jingine.'),
   'too_soon' => c.t(
@@ -120,7 +120,12 @@ class _CommunityNameScreenState extends State<CommunityNameScreen> {
     final ok = problem == null && name.text.trim().isNotEmpty && name.text.trim() != current;
     return AppScaffold(
       title: context.t('Community name', 'Jina la jamii'),
-      bottom: PrimaryButton(key: const Key('handle-save'), context.t('Save this name', 'Hifadhi jina hili'), loading: busy, onPressed: ok && !busy ? _save : null),
+      bottom: PrimaryButton(
+        key: const Key('handle-save'),
+        context.t('Save this name', 'Hifadhi jina hili'),
+        loading: busy,
+        onPressed: ok && !busy ? _save : null,
+      ),
       children: [
         AppHeader(
           context.t('Choose your community name', 'Chagua jina lako la jamii'),
@@ -129,34 +134,48 @@ class _CommunityNameScreenState extends State<CommunityNameScreen> {
             'Akina mama wengine wanaona jina hili usipoandika bila jina. Halihitaji kuwa jina lako halisi.',
           ),
         ),
-        TextField(
-          key: const Key('handle-field'),
-          controller: name,
-          onChanged: _changed,
-          maxLength: 20,
-          autocorrect: false,
-          enableSuggestions: false,
-          decoration: InputDecoration(
-            labelText: context.t('Community name', 'Jina la jamii'),
-            prefixText: '@',
-            prefixStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: C.ink),
-            hintText: 'MamaJasiri',
-            suffixIcon: checking
-                ? Semantics(
-                    label: context.t('Checking the name', 'Inakagua jina'),
-                    child: const Padding(padding: EdgeInsets.all(14), child: SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))),
-                  )
-                : free
-                ? const Icon(Icons.check_circle, color: C.green)
-                : null,
-            // the answer belongs to the field (read with it, red border) and is announced when it changes
-            error: problem == null
-                ? null
-                : Semantics(
-                    liveRegion: true,
-                    child: Text(key: const Key('handle-problem'), handleProblemText(context, problem!, canChangeAt: canChangeAt), style: tt.bodyMedium!.copyWith(color: C.red)),
-                  ),
-            helper: free ? Semantics(liveRegion: true, child: Text(context.t('This name is free.', 'Jina hili liko wazi.'), style: tt.bodyMedium!.copyWith(color: C.green))) : null,
+        Labeled(
+          label: context.t('Community name', 'Jina la jamii'),
+          child: TextField(
+            key: const Key('handle-field'),
+            controller: name,
+            onChanged: _changed,
+            maxLength: 20,
+            autocorrect: false,
+            enableSuggestions: false,
+            decoration: InputDecoration(
+              prefixText: '@',
+              prefixStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(color: C.ink),
+              hintText: 'MamaJasiri',
+              suffixIcon: checking
+                  ? Semantics(
+                      label: context.t('Checking the name', 'Inakagua jina'),
+                      child: const Padding(
+                        padding: EdgeInsets.all(14),
+                        child: SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)),
+                      ),
+                    )
+                  : free
+                  ? const Icon(Icons.check_circle, color: C.green)
+                  : null,
+              // the answer belongs to the field (read with it, red border) and is announced when it changes
+              error: problem == null
+                  ? null
+                  : Semantics(
+                      liveRegion: true,
+                      child: Text(
+                        key: const Key('handle-problem'),
+                        handleProblemText(context, problem!, canChangeAt: canChangeAt),
+                        style: tt.bodyMedium!.copyWith(color: C.red),
+                      ),
+                    ),
+              helper: free
+                  ? Semantics(
+                      liveRegion: true,
+                      child: Text(context.t('This name is free.', 'Jina hili liko wazi.'), style: tt.bodyMedium!.copyWith(color: C.green)),
+                    )
+                  : null,
+            ),
           ),
         ),
         const Gap(Sp.md),

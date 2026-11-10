@@ -53,26 +53,26 @@ class _BpScreenState extends State<BpScreen> {
           Row(
             children: [
               Expanded(
-                child: TextField(
+                child: Labeled(label: context.t('Top number', 'Namba ya juu'), child: TextField(
                   key: const Key('bp-sys'),
                   controller: sys,
                   onChanged: (_) => setState(() => result = null),
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(labelText: context.t('Top number', 'Namba ya juu')),
-                ),
+                  decoration: InputDecoration(),
+                )),
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 child: Text('/', style: TextStyle(fontSize: 24)),
               ),
               Expanded(
-                child: TextField(
+                child: Labeled(label: context.t('Bottom number', 'Namba ya chini'), child: TextField(
                   key: const Key('bp-dia'),
                   controller: dia,
                   onChanged: (_) => setState(() => result = null),
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(labelText: context.t('Bottom number', 'Namba ya chini')),
-                ),
+                  decoration: InputDecoration(),
+                )),
               ),
             ],
           ),

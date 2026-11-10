@@ -32,7 +32,8 @@ class _BookingScreenState extends State<BookingScreen> {
     try {
       final url = await context.appRead.bookings.joinUrl(b.id);
       final ok = await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-      if (!ok && mounted) setState(() => err = context.t('Could not open the call. Is a browser installed?', 'Imeshindikana kufungua simu. Je, kuna kivinjari?'));
+      if (!ok && mounted)
+        setState(() => err = context.t('Could not open the call. Is a browser installed?', 'Imeshindikana kufungua simu. Je, kuna kivinjari?'));
     } on RemoteError catch (e) {
       if (mounted) {
         setState(
@@ -44,7 +45,8 @@ class _BookingScreenState extends State<BookingScreen> {
         );
       }
     } on Object {
-      if (mounted) setState(() => err = context.t('Could not join. Check your internet and try again.', 'Imeshindikana kuingia. Kagua intaneti kisha ujaribu tena.'));
+      if (mounted)
+        setState(() => err = context.t('Could not join. Check your internet and try again.', 'Imeshindikana kuingia. Kagua intaneti kisha ujaribu tena.'));
     }
     if (mounted) setState(() => joining = false);
   }
@@ -108,7 +110,10 @@ class _BookingScreenState extends State<BookingScreen> {
                 children: [
                   Icon(b.video ? Icons.videocam_outlined : Icons.local_hospital_outlined, color: Colors.white),
                   const SizedBox(width: Sp.sm),
-                  Text(b.video ? context.t('Video call', 'Simu ya video') : context.t('Clinic visit', 'Kliniki'), style: const TextStyle(color: C.onPrimaryMuted)),
+                  Text(
+                    b.video ? context.t('Video call', 'Simu ya video') : context.t('Clinic visit', 'Kliniki'),
+                    style: const TextStyle(color: C.onPrimaryMuted),
+                  ),
                 ],
               ),
               const Gap(Sp.sm),
@@ -117,14 +122,11 @@ class _BookingScreenState extends State<BookingScreen> {
               if (b.staffName != null) Text(context.t('With ${b.staffName}', 'Na ${b.staffName}'), style: const TextStyle(color: Colors.white)),
               if (!booked) ...[
                 const Gap(Sp.sm),
-                Text(
-                  switch (b.status) {
-                    'cancelled' => context.t('Cancelled', 'Imeghairiwa'),
-                    'done' => context.t('Done', 'Imefanyika'),
-                    _ => context.t('Missed', 'Hukuhudhuria'),
-                  },
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
-                ),
+                Text(switch (b.status) {
+                  'cancelled' => context.t('Cancelled', 'Imeghairiwa'),
+                  'done' => context.t('Done', 'Imefanyika'),
+                  _ => context.t('Missed', 'Hukuhudhuria'),
+                }, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
               ],
             ],
           ),
@@ -142,7 +144,9 @@ class _BookingScreenState extends State<BookingScreen> {
                   children: [
                     const Icon(Icons.medical_services_outlined, color: C.green),
                     const SizedBox(width: Sp.sm),
-                    Expanded(child: Text(context.t("Health worker's advice", 'Ushauri wa mhudumu wa afya'), style: tt.titleMedium!.copyWith(color: C.green))),
+                    Expanded(
+                      child: Text(context.t("Health worker's advice", 'Ushauri wa mhudumu wa afya'), style: tt.titleMedium!.copyWith(color: C.green)),
+                    ),
                   ],
                 ),
                 const Gap(Sp.sm),
@@ -156,7 +160,10 @@ class _BookingScreenState extends State<BookingScreen> {
             ),
           ),
         ],
-        if (b.reason != null) ...[const Gap(Sp.md), Text(context.t('You want to talk about: ${b.reason}', 'Unataka kuzungumzia: ${b.reason}'), style: tt.bodyLarge)],
+        if (b.reason != null) ...[
+          const Gap(Sp.md),
+          Text(context.t('You want to talk about: ${b.reason}', 'Unataka kuzungumzia: ${b.reason}'), style: tt.bodyLarge),
+        ],
         const Gap(Sp.md),
         if (b.video && booked) ...[
           PrimaryButton(
@@ -170,7 +177,10 @@ class _BookingScreenState extends State<BookingScreen> {
             Padding(
               padding: const EdgeInsets.only(top: Sp.sm),
               child: Text(
-                context.t('This button works from ${fmtTime(b.opensAt)} on the day, 15 minutes before the start.', 'Kitufe hiki kinafanya kazi kuanzia saa ${fmtTime(b.opensAt)} siku hiyo, dakika 15 kabla ya kuanza.'),
+                context.t(
+                  'This button works from ${fmtTime(b.opensAt)} on the day, 15 minutes before the start.',
+                  'Kitufe hiki kinafanya kazi kuanzia saa ${fmtTime(b.opensAt)} siku hiyo, dakika 15 kabla ya kuanza.',
+                ),
                 style: tt.bodySmall,
               ),
             ),
@@ -201,7 +211,15 @@ class _BookingScreenState extends State<BookingScreen> {
             ),
           ),
         ] else if (booked)
-          AppCard(child: Text(context.t('Bring your clinic card. If you cannot come, cancel so another mother can have the time.', 'Beba kadi yako ya kliniki. Usipoweza kuja, ghairi ili mama mwingine apate muda huo.'), style: tt.bodyLarge)),
+          AppCard(
+            child: Text(
+              context.t(
+                'Bring your clinic card. If you cannot come, cancel so another mother can have the time.',
+                'Beba kadi yako ya kliniki. Usipoweza kuja, ghairi ili mama mwingine apate muda huo.',
+              ),
+              style: tt.bodyLarge,
+            ),
+          ),
         if (err != null) ...[const Gap(Sp.sm), ErrorState(err!)],
         if (booked) ...[
           const Gap(Sp.md),

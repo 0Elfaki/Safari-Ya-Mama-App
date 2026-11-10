@@ -52,12 +52,12 @@ class _CaregiverJoinScreenState extends State<CaregiverJoinScreen> {
               ),
             )
           else if (!s.signedIn) ...[
-            TextField(
+            Labeled(label: context.t('Your first name', 'Jina lako la kwanza'), child: TextField(
               key: const Key('cg-name'),
               controller: name,
               onChanged: (_) => setState(() {}),
-              decoration: InputDecoration(labelText: context.t('Your first name', 'Jina lako la kwanza')),
-            ),
+              decoration: InputDecoration(),
+            )),
             const Gap(12),
             FilledButton.icon(
               key: const Key('cg-signin'),
@@ -72,13 +72,13 @@ class _CaregiverJoinScreenState extends State<CaregiverJoinScreen> {
               label: Text(context.t('Sign in with my phone number', 'Ingia kwa namba yangu ya simu')),
             ),
           ] else ...[
-            TextField(
+            Labeled(label: context.t('Code from the mother', 'Namba kutoka kwa mama'), child: TextField(
               key: const Key('cg-code'),
               controller: code,
               keyboardType: TextInputType.number,
               maxLength: 6,
-              decoration: InputDecoration(labelText: context.t('Code from the mother', 'Namba kutoka kwa mama')),
-            ),
+              decoration: InputDecoration(),
+            )),
             FilledButton(
               key: const Key('cg-join'),
               onPressed: busy

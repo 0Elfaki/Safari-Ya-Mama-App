@@ -47,7 +47,7 @@ class _RecordProofScreenState extends State<RecordProofScreen> {
     final ready = s.hasRemote && s.signedIn;
     final p = proof;
     final lang = s.lang;
-    String day(String? iso) => iso == null || iso.isEmpty ? '—' : fmtDayYear(parseDay(iso.substring(0, 10)), lang);
+    String day(String? iso) => iso == null || iso.isEmpty ? (lang == 'sw' ? 'Hakuna' : 'None') : fmtDayYear(parseDay(iso.substring(0, 10)), lang);
     final vaccineLabel = {for (final d in vaccineDoses) d.key: d.label};
     String visitLabel(ProofVisit v) {
       final n = v.contactNo == null ? '' : ' ${v.contactNo}';

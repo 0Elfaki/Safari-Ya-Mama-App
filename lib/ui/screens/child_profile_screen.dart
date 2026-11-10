@@ -172,9 +172,9 @@ class _ChildCard extends StatelessWidget {
               fact(context.t('age', 'umri'), age),
               fact(
                 context.t('birth weight', 'uzito wa kuzaliwa'),
-                b['birth_weight_g'] == null ? '—' : '${((b['birth_weight_g'] as int) / 1000).toStringAsFixed(2)} kg',
+                b['birth_weight_g'] == null ? context.t('Not added', 'Haijawekwa') : '${((b['birth_weight_g'] as int) / 1000).toStringAsFixed(2)} kg',
               ),
-              fact(context.t('latest weight', 'uzito wa mwisho'), w.isEmpty ? '—' : '${((w.last['weight_g'] as int) / 1000).toStringAsFixed(2)} kg'),
+              fact(context.t('latest weight', 'uzito wa mwisho'), w.isEmpty ? context.t('Not added', 'Haijawekwa') : '${((w.last['weight_g'] as int) / 1000).toStringAsFixed(2)} kg'),
             ],
           ),
           const Gap(12),
@@ -182,7 +182,7 @@ class _ChildCard extends StatelessWidget {
             children: [
               fact(context.t('vaccines given', 'chanjo zilizotolewa'), '$given / ${vaccineDoses.length}'),
               fact(context.t('milestones', 'hatua za makuzi'), '${s.milestonesDone(id)}'),
-              fact(context.t('next vaccine', 'chanjo ijayo'), next == null ? '—' : '${next.dose.label}, ${fmtDay(next.due, s.lang)}'),
+              fact(context.t('next vaccine', 'chanjo ijayo'), next == null ? context.t('None due', 'Hakuna') : '${next.dose.label}, ${fmtDay(next.due, s.lang)}'),
             ],
           ),
           const Gap(16),
@@ -225,11 +225,11 @@ class BabyFields extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 8),
           child: Text(context.t('Baby ${index + 1}', 'Mtoto ${index + 1}'), style: Theme.of(context).textTheme.titleMedium),
         ),
-      TextField(
+      Labeled(label: context.t("Baby's name (optional)", 'Jina la mtoto (si lazima)'), child: TextField(
         key: Key('baby-name-$index'),
         controller: name,
-        decoration: InputDecoration(labelText: context.t("Baby's name (optional)", 'Jina la mtoto (si lazima)')),
-      ),
+        decoration: InputDecoration(),
+      )),
       const Gap(12),
       SegmentedButton<String>(
         emptySelectionAllowed: true,
@@ -241,12 +241,12 @@ class BabyFields extends StatelessWidget {
         onSelectionChanged: (v) => onSex(v.isEmpty ? null : v.first),
       ),
       const Gap(12),
-      TextField(
+      Labeled(label: context.t('Birth weight in kg (optional)', 'Uzito wa kuzaliwa kwa kilo (si lazima)'), child: TextField(
         key: Key('baby-weight-$index'),
         controller: weight,
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
-        decoration: InputDecoration(labelText: context.t('Birth weight in kg (optional)', 'Uzito wa kuzaliwa kwa kilo (si lazima)')),
-      ),
+        decoration: InputDecoration(),
+      )),
     ],
   );
 }

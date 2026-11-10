@@ -74,7 +74,10 @@ class _BookScreenState extends State<BookScreen> {
       if (!mounted) return;
       setState(
         () => err = switch (e.problem) {
-          BookingProblem.taken => context.t('Someone just took this time. Please choose another.', 'Mtu amechukua muda huu sasa hivi. Tafadhali chagua mwingine.'),
+          BookingProblem.taken => context.t(
+            'Someone just took this time. Please choose another.',
+            'Mtu amechukua muda huu sasa hivi. Tafadhali chagua mwingine.',
+          ),
           BookingProblem.tooMany => context.t(
             'You already have 3 appointments coming up. Cancel one to book another.',
             'Tayari una miadi 3 inayokuja. Ghairi mmoja upange mwingine.',
@@ -101,7 +104,10 @@ class _BookScreenState extends State<BookScreen> {
               picture,
               height: 88,
               radius: R.medium,
-              fallback: Container(color: C.primarySoft, child: Icon(icon, size: 40, color: C.primary)),
+              fallback: Container(
+                color: C.primarySoft,
+                child: Icon(icon, size: 40, color: C.primary),
+              ),
             ),
           ),
         ),
@@ -136,7 +142,13 @@ class _BookScreenState extends State<BookScreen> {
         title: context.t('Book a visit', 'Panga miadi'),
         bottom: switch (step) {
           1 => PrimaryButton(key: const Key('book-next'), context.t('Next', 'Endelea'), onPressed: slot == null ? null : () => setState(() => step = 2)),
-          2 => PrimaryButton(key: const Key('book-confirm'), context.t('Book this time', 'Panga muda huu'), icon: Icons.check, loading: busy, onPressed: busy ? null : _book),
+          2 => PrimaryButton(
+            key: const Key('book-confirm'),
+            context.t('Book this time', 'Panga muda huu'),
+            icon: Icons.check,
+            loading: busy,
+            onPressed: busy ? null : _book,
+          ),
           _ => null,
         },
         children: [
@@ -146,14 +158,20 @@ class _BookScreenState extends State<BookScreen> {
             Text(context.t('How do you want to meet?', 'Ungependa kukutana vipi?'), style: AppTypography.h2),
             const Gap(Sp.md),
             if (s.facility?['id'] == null || s.facilityList.length > 1) ...[
-              DropdownButtonFormField<String>(
+              Labeled(label: context.t('Your clinic', 'Kliniki yako'), child: DropdownButtonFormField<String>(
                 key: const Key('book-facility'),
                 initialValue: facilityId,
                 isExpanded: true,
-                decoration: InputDecoration(labelText: context.t('Your clinic', 'Kliniki yako')),
-                items: [for (final x in s.facilityList) DropdownMenuItem(value: x['id'] as String, child: Text('${x['name']}', overflow: TextOverflow.ellipsis))],
+                decoration: InputDecoration(),
+                items: [
+                  for (final x in s.facilityList)
+                    DropdownMenuItem(
+                      value: x['id'] as String,
+                      child: Text('${x['name']}', overflow: TextOverflow.ellipsis),
+                    ),
+                ],
                 onChanged: (v) => setState(() => facilityId = v),
-              ),
+              )),
               if (s.facilityList.isEmpty)
                 Padding(
                   padding: const EdgeInsets.only(top: Sp.sm),
@@ -184,7 +202,10 @@ class _BookScreenState extends State<BookScreen> {
             ),
             const Gap(Sp.md),
             Text(
-              context.t('In an emergency, do not book: go now or open Emergency help.', 'Wakati wa dharura usipange miadi: nenda sasa au fungua Msaada wa dharura.'),
+              context.t(
+                'In an emergency, do not book: go now or open Emergency help.',
+                'Wakati wa dharura usipange miadi: nenda sasa au fungua Msaada wa dharura.',
+              ),
               style: Theme.of(context).textTheme.bodySmall,
             ),
           ],
@@ -232,7 +253,12 @@ class _BookScreenState extends State<BookScreen> {
                 runSpacing: Sp.sm,
                 children: [
                   for (final x in times)
-                    ChoiceChip(key: Key('slot-${x.id}'), label: Text(fmtTime(x.startsAt)), selected: slot?.id == x.id, onSelected: (_) => setState(() => slot = x)),
+                    ChoiceChip(
+                      key: Key('slot-${x.id}'),
+                      label: Text(fmtTime(x.startsAt)),
+                      selected: slot?.id == x.id,
+                      onSelected: (_) => setState(() => slot = x),
+                    ),
                 ],
               ),
             ],
@@ -258,7 +284,7 @@ class _BookScreenState extends State<BookScreen> {
               ),
             ),
             const Gap(Sp.md),
-            TextField(
+            Labeled(label: context.t('What would you like to talk about? (optional)', 'Ungependa kuzungumzia nini? (si lazima)'), child: TextField(
               key: const Key('book-reason'),
               controller: reason,
               maxLength: 300,
@@ -266,10 +292,9 @@ class _BookScreenState extends State<BookScreen> {
               minLines: 2,
               textCapitalization: TextCapitalization.sentences,
               decoration: InputDecoration(
-                labelText: context.t('What would you like to talk about? (optional)', 'Ungependa kuzungumzia nini? (si lazima)'),
                 hintText: context.t('For example: swollen feet, feeding, a question about tablets', 'Mfano: miguu kuvimba, kunyonyesha, swali kuhusu vidonge'),
               ),
-            ),
+            )),
             if (err != null) ErrorState(err!),
           ],
         ],

@@ -79,7 +79,7 @@ Deno.serve(async (req) => {
     let aal = "";
     try { aal = JSON.parse(atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/"))).aal ?? ""; } catch { /* not a JWT */ }
     staff = (!!a && ["health_worker", "facility_admin"].includes(me?.role ?? ""))
-      || (["super_admin", "programme_admin"].includes(me?.role ?? "") && aal === "aal2");
+      || (["super_admin", "programme_admin"].includes(me?.role ?? "") && (aal === "aal2" || (await db.rpc("mfa_required")).data === false));
     if (!staff) return json({ error: "not your appointment" }, 403);
   }
   if (b.status !== "booked") return json({ error: "ended" }, 410);

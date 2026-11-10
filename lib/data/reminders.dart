@@ -71,7 +71,16 @@ List<PlannedReminder> plannedReminders(AppState s) {
     }
     final soon = b.startsAt.subtract(const Duration(minutes: 30));
     if (b.video && soon.isAfter(s.now())) {
-      out.add(PlannedReminder(bid++, 'Video call in 30 minutes. Find a quiet place.', 'Simu ya video baada ya dakika 30. Tafuta mahali tulivu.', on: sod(soon), hour: soon.hour, minute: soon.minute));
+      out.add(
+        PlannedReminder(
+          bid++,
+          'Video call in 30 minutes. Find a quiet place.',
+          'Simu ya video baada ya dakika 30. Tafuta mahali tulivu.',
+          on: sod(soon),
+          hour: soon.hour,
+          minute: soon.minute,
+        ),
+      );
     }
   }
   return out;

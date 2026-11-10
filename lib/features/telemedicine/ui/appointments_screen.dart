@@ -32,10 +32,16 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
       children: [
         AppHeader(
           context.t('See a health worker', 'Muone mhudumu wa afya'),
-          subtitle: context.t('Book a visit at your clinic, or talk on a video call from home.', 'Panga kwenda kliniki, au ongea kwa simu ya video ukiwa nyumbani.'),
+          subtitle: context.t(
+            'Book a visit at your clinic, or talk on a video call from home.',
+            'Panga kwenda kliniki, au ongea kwa simu ya video ukiwa nyumbani.',
+          ),
         ),
         if (!s.signedIn)
-          EmptyState(Icons.event_busy_outlined, context.t('Booking needs you to be signed in, with internet.', 'Kupanga miadi kunahitaji uwe umeingia, na uwe na intaneti.'))
+          EmptyState(
+            Icons.event_busy_outlined,
+            context.t('Booking needs you to be signed in, with internet.', 'Kupanga miadi kunahitaji uwe umeingia, na uwe na intaneti.'),
+          )
         else ...[
           PrimaryButton(
             key: const Key('book-start'),
@@ -94,11 +100,18 @@ class BookingTile extends StatelessWidget {
                   '${b.video ? context.t('Video call', 'Simu ya video') : context.t('Clinic visit', 'Kliniki')}${b.facilityName == null ? '' : ' · ${b.facilityName}'}',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
-                if (status != null) Text(status, style: Theme.of(context).textTheme.bodySmall!.copyWith(color: C.ink2, fontWeight: FontWeight.w600)),
+                if (status != null)
+                  Text(
+                    status,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(color: C.ink2, fontWeight: FontWeight.w600),
+                  ),
               ],
             ),
           ),
-          if (b.canJoin(s.now())) StatusBadge(context.t('Join now', 'Ingia sasa'), color: C.green, icon: Icons.videocam) else const Icon(Icons.chevron_right, color: C.ink2),
+          if (b.canJoin(s.now()))
+            StatusBadge(context.t('Join now', 'Ingia sasa'), color: C.green, icon: Icons.videocam)
+          else
+            const Icon(Icons.chevron_right, color: C.ink2),
         ],
       ),
     );

@@ -68,7 +68,10 @@ class _PostScreenState extends State<PostScreen> {
           SnackBar(
             content: Text(
               e.reason == 'muted'
-                  ? context.t('You cannot post right now. You can still read and mark posts helpful.', 'Huwezi kuandika sasa. Bado unaweza kusoma na kuweka "imesaidia".')
+                  ? context.t(
+                      'You cannot post right now. You can still read and mark posts helpful.',
+                      'Huwezi kuandika sasa. Bado unaweza kusoma na kuweka "imesaidia".',
+                    )
                   : context.t('Choose a community name first, or reply anonymously.', 'Chagua jina la jamii kwanza, au jibu bila jina.'),
             ),
           ),
@@ -131,7 +134,10 @@ class _PostScreenState extends State<PostScreen> {
         else if (post != null) ...[
           PostCard(post!, full: true, onChanged: _load),
           const Gap(Sp.md),
-          if (offline) OfflineIndicator(text: context.t('No internet. Replies will show when you are back online.', 'Hakuna intaneti. Majibu yataonekana ukirudi mtandaoni.')),
+          if (offline)
+            OfflineIndicator(
+              text: context.t('No internet. Replies will show when you are back online.', 'Hakuna intaneti. Majibu yataonekana ukirudi mtandaoni.'),
+            ),
           if (replies == null && !offline)
             LoadingState(context.t('Loading replies…', 'Inapakia majibu…'))
           else if (replies != null && replies!.isEmpty)
