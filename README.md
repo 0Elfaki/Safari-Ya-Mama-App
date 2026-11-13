@@ -15,6 +15,21 @@ Web demo: `flutter build web` then open with `?demo=pregnant` or `?demo=baby` (`
 
 Structure: `lib/app` (app root, GoRouter routes and guards, Riverpod providers), `lib/core` (rules, content, design tokens in `core/theme`, shared widgets in `core/widgets`, encrypted Doctor's Note), `lib/data` (Hive store, outbox, Supabase sync, phone reminders, voice input), `lib/state` (AppState, owned by Riverpod and read with `context.app`), `lib/ui` (screens), `lib/features/<feature>/{domain,data,ui}` (feature-first folders for new features: `community` = Mothers' circle, `telemedicine` = appointments and video calls; put new features here). Server functions this app adds are in `supabase/migrations`. Visual audit: `flutter test test_screens/audit_test.dart --update-goldens` writes a screenshot of every screen to `test_screens/shots/`. Do not edit `*.g.dart`.
 
+## The Safari ya Mama system
+
+Safari ya Mama has three parts. They share one Supabase backend.
+
+| Part | Repository | Live | For |
+|---|---|---|---|
+| **Mobile app** (this repo) | [Safari-Ya-Mama-App](https://github.com/0Elfaki/Safari-Ya-Mama-App) | Android (Play Store internal testing) | Mothers and caregivers |
+| **Staff dashboard** | [Safari-Ya-Mama-Dashboard](https://github.com/0Elfaki/Safari-Ya-Mama-Dashboard) | Invite only | Health workers, facility admins and programme admins: mothers, check-ins, bookings, community moderation, content and website CMS, KPIs |
+| **Public website** | [Safari-Ya-Mama-Website](https://github.com/0Elfaki/Safari-Ya-Mama-Website) | [safariyamama.com](https://safariyamama.com) | The public: about the programme, contact form |
+| **Paper booklet** | [booklet/](booklet/safari-ya-mama-booklet-en.pdf) (this repo) | Printed, given out at clinics | Mothers without a smartphone |
+
+### Dashboard access for grant reviewers and partners
+
+The dashboard is invite-only because it holds health data. To request a review account, email **megdad.elfaki@gmail.com** with your name, organisation and the reason for access. You will get an invite with the right role.
+
 ## The paper booklet: "My daily check book"
 
 📘 [booklet/safari-ya-mama-booklet-en.pdf](booklet/safari-ya-mama-booklet-en.pdf) (English, 52 pages, A4, print-ready)
@@ -73,16 +88,7 @@ A short code made of numbers works on any basic phone. It costs one SMS, and it 
 - **Brought to every visit.** The booklet **does not replace the clinic card**. The mother brings both to every visit, and the health worker reviews the log with her.
 - **Safety first.** For any red sign she goes to the facility immediately. The SMS is a record, not a way to ask for help in an emergency.
 
-## Website and staff dashboard
-
-This repository holds the mobile app only. The public website and the staff dashboard live in their own repositories and share this app's Supabase backend.
-
-| | Link | For |
-|---|---|---|
-| **Website** | [safariyamama.com](https://safariyamama.com) | The public: about the programme, contact form |
-| **Staff dashboard** | [DASHBOARD_LINK](DASHBOARD_LINK) | Health workers, facility admins and programme admins: mothers, check-ins, bookings, community moderation, content and website CMS, KPIs |
-
-**Dashboard access for grant reviewers and partners:** the dashboard is invite-only because it holds health data. To request a review account, email **megdad.elfaki@gmail.com** with your name, organisation and the reason for access. You will get an invite with the right role.
+## Development notes
 
 `test/fixtures/rules_cases.json` is a copy of the shared rule cases (generated from the reference rules by `node tools/gen_rules_cases.mjs`);
 refresh it whenever `rules_version` changes so `rules_parity_test.dart` keeps the phone's warning levels identical to the server's.
